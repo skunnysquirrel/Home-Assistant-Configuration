@@ -1,0 +1,126 @@
+
+##VIEWS
+volvo_view:
+  view: yes
+  name: Volvo
+  entities:
+    - group.volvo
+    - group.volvobenzine
+    - group.volvosensors
+
+slimme_meter_view:
+  view: yes
+  name: "Slimme meter"
+  entities:
+    - group.slimmemetertotals
+    - group.slimmemeteractuals
+    - group.slimmemetervoltage
+    
+overig_view:
+  view: yes
+  name: Overig
+  entities:
+    - group.environment
+    
+##GROUPS
+huiskamer:
+  name: Huiskamer
+  entities:
+    - light.lamp_salontafel
+    - light.schemerlamp
+    
+keuken:
+  name: Keuken
+  entities:
+    - light.paneel_keuken
+    
+eettafel:
+  name: Eettafel
+  entities:
+    - light.lamp_1__tafel
+    - light.lamp_2__tafel_2
+    
+keukeneneettafel:
+  name: 'Keuken en eettafel'
+  entities:
+    - light.paneel_keuken
+    - light.lamp_1__tafel
+    - light.lamp_2__tafel_2
+    
+slaapkamers:
+  name: Slaapkamers
+  entities:
+    - light.slaapkamer_justin
+    - light.slaapkamer_robin
+    
+gang:
+  name: Gang
+  entities:
+    - light.floalt_panel_ws_30x30
+    
+environment:
+  name: Environment
+  entities:
+    - sun.sun
+    - sensor.yr_symbol
+    - sensor.bewegingssensor_gang
+    - sensor.bewegingssensor_garage
+    - sensor.afstandsbediening_beneden
+    - sensor.afstandsbediening_justin
+    - sensor.afstandsbediening_robin
+    - sensor.davanti1_battery_level
+    - sensor.davanti1_battery_state
+
+slimmemetertotals:
+    name: Slimme meter - Totals
+    entities:
+      - sensor.power_consumption_low
+      - sensor.power_consumption_normal
+      - sensor.power_production_low
+      - sensor.power_production_normal
+      - sensor.gas_consumption
+      
+slimmemeteractuals:
+  name: Slimme meter - Phases
+  entities:
+    - sensor.long_power_failure_count
+    - sensor.power_consumption_phase_l1
+    - sensor.power_consumption_phase_l2
+    - sensor.power_consumption_phase_l3
+    - sensor.power_production_phase_l1
+    - sensor.power_production_phase_l2
+    - sensor.power_production_phase_l3
+    
+slimmemetervoltage:
+  name: Slimme meter - Voltage
+    - sensor.voltage_sags_phase_l1
+    - sensor.voltage_sags_phase_l2
+    - sensor.voltage_sags_phase_l3
+    - sensor.voltage_swells_phase_l1
+    - sensor.voltage_swells_phase_l2
+    - sensor.voltage_swells_phase_l3
+    
+volvo:
+  name: Volvo V40 - Algemeen
+  entities:
+    - switch.6xvs10_heater
+    - lock.6xvs10_lock
+    - sensor.6xvs10_odometer
+    - sensor.6xvs10_range
+    
+volvobenzine:
+  name: Volvo V40 - Verbruik
+  entities:
+    - sensor.6xvs10_fuel_amount
+    - sensor.6xvs10_fuel_consumption
+    - sensor.6xvs10_fuel_level
+    
+volvosensors:
+  name: Volvo V40 - Sensors
+  entities:
+    - binary_sensor.6xvs10_brake_fluid
+    - binary_sensor.6xvs10_bulbs
+    - binary_sensor.6xvs10_doors
+    - binary_sensor.6xvs10_service
+    - binary_sensor.6xvs10_washer_fluid
+    - binary_sensor.6xvs10_windows

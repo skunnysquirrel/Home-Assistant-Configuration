@@ -1,0 +1,193 @@
+#*****************************************************************************
+# Settings to remember for my Tradfri system
+#
+# Kelvin values: 2200 Kelvin (warm glow) 
+#                2700 Kelvin (warm white)
+#                4000 Kelvin (cool white)
+# Brightness: 0 - 255 (= 100 percent)
+#*****************************************************************************
+
+#*****************************************************************************
+# Switch on lights in the livingroom at sunset when somebody is home
+#*****************************************************************************
+- id: lichten-aan-bij-zon-onder
+  alias: 'Lichten aan bij zon onder'
+  trigger:
+    platform: sun
+    event: sunset
+  condition:
+    condition: and
+    conditions:
+    - condition: state
+      entity_id: group.all_devices
+      state: home
+    - condition: state
+      entity_id: group.huiskamer
+      state: 'off'
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.huiskamer
+    data:
+      brightness: 50
+
+#*****************************************************************************
+# Switch on table lamp at sunrise during weekdays when somebody is home
+#*****************************************************************************
+- id: switch-on-table-lamp-at-sunrise-during-weekdays
+  alias: 'Schemerlamp aan bij opkomst zon door de week'
+  trigger:
+    platform: sun
+    event: sunrise
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: state
+      entity_id: group.all_devices
+      state: 'home'
+    - condition: state
+      entity_id: light.schemerlamp
+      state: 'off'
+  action:
+    service: homeassistant.turn_on
+    entity_id: light.schemerlamp
+    data:
+      brightness: 50
+      
+#*****************************************************************************
+# Switch off table lamp during weekdays 2 hours after sunrise.
+#*****************************************************************************
+- id: switch-off-table-lamp-two-hours-after-sunrise-during-weekdays
+  alias: 'Schemerlamp uit 2 uur na opkomst zon door de week'
+  trigger:
+    platform: sun
+    event: sunrise
+    offset: '+02:00:00'
+  condition:
+    condition: and
+    conditions:
+    - condition: time
+      weekday:
+      - mon
+      - tue
+      - wed
+      - thu
+      - fri
+    - condition: state
+      entity_id: light.schemerlamp
+      state: 'on'
+  action:
+    service: homeassistant.turn_off
+    entity_id: light.schemerlamp
+
+#*****************************************************************************
+# When everybody is away, switch off all lights and send my a notification
+#*****************************************************************************
+- id: lights-out-when-everybody-is-gone
+  alias: 'Licht uit als iedereen weg is'
+  trigger:
+    platform: state
+    entity_id: group.all_devices
+    to: 'not_home'
+    for:
+      minutes: 2
+  action:
+    - service: homeassistant.turn_off
+      entity_id: group.all_lights
+    - service: notify.ios_marcel
+      data:
+        message: 'Iedereen weg, lichten uit gedaan'
+        data:
+          badge: 0
+          category: 'Note'
+
+#*****************************************************************************
+# Standalone script with 'fake' MQTT topic to set all lights to 100 percent
+# brightness and 4000 Kelvin. Used to scare off any burglars  
+#*****************************************************************************
+- id: all-lights-100-percent
+  alias: 'Alle lampen 100 procent sterkte'
+  trigger:
+    platform: mqtt
+    topic: lampen/100procent
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.all_lights
+    data:
+        brightness: 255
+        kelvin: 4000
+
+#*****************************************************************************
+# Standalone script with 'fake' MQTT topic to set all lights to 50 percent
+# brightness and 2200 Kelvin (warm glow)
+#*****************************************************************************
+- id: all-lights-50-percent
+  alias: 'Alle lampen 50 procent sterkte'
+  trigger:
+    platform: mqtt
+    topic: lampen/50procent
+  action:
+    service: homeassistant.turn_on
+    entity_id: group.all_lights
+    data:
+        brightness: 128
+        kelvin: 2200
+        
+#*****************************************************************************
+# Script to restart Let's Encrypt every night
+#*****************************************************************************
+- id: letsencrypt-renewal
+  alias: 'Lets Encrypt Renewal'
+  trigger:
+  - platform: time
+    at: '00:00:00'
+  action:
+  - service: hassio.addon_restart
+    data:
+      addon: core_letsencrypt
+
+#*****************************************************************************
+# Test automation to trigger a script
+#*****************************************************************************
+#- id: demo
+#  alias: 'Demo HA'
+#  trigger:
+#    platform: mqtt
+#    topic: demo/ha
+#  action:
+#    - service: script.kermis
+
+#*****************************************************************************
+# Test automation to find out how to send a notification to iOS
+#
+# Sound can also be added to the notification; List of default available sounds
+# https://www.home-assistant.io/docs/ecosystem/ios/notifications/sounds/
+#*****************************************************************************
+#- id: notify
+#  alias: 'Notify test'
+#  trigger:
+#    platform: state
+#    entity_id: group.all_devices
+#    to: 'home'
+#    for:
+#      minutes: 60
+#  action:
+#    - service: homeassistant.turn_on
+#      entity_id: light.schemerlamp
+#      data:
+#        brightness: 10
+#    - service: notify.ios_marcel
+#      data:
+#        message: 'Lamp 10%'
+#        data:
+#          badge: 0
+#          category: 'Note'
+# Optional a push of sound.......
+#          push:
+#            sound: 'US-EN-Morgan-Freeman-Good-Morning.wav'

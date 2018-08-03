@@ -1,0 +1,26 @@
+# Wildcards
+*                   # Ignore everything
+!*/                 # Descend into directories
+
+!.gitignore         # Not .gitignore itself
+!*.yaml             # Don't ignore yaml files
+!*.gif
+!*.md
+
+# Ignored individual files
+known_devices.yaml
+secrets.yaml
+home-assistant_v2.db
+home-assistant_v2.db-shm
+home-assistant_v2.db-wal
+home-assistant.log
+.cloud
+.HA_VERSION
+.ios.conf
+.tradfri_psk.conf
+.uuid
+
+# Ignored Directories
+icloud
+deps
+tts

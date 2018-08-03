@@ -1,0 +1,89 @@
+flash:
+  alias: 'Flash'
+  sequence:
+    - service: light.turn_on
+      data:
+        entity_id: group.eettafel
+        brightness: 255
+    - delay: 1
+    - service: light.turn_off
+      data:
+        entity_id: group.eettafel
+    - delay: 2
+    - service: light.turn_on
+      data:
+        entity_id: group.eettafel
+        brightness: 255
+    - delay: 1
+    - service: light.turn_off
+      data:
+        entity_id: group.eettafel
+    - delay: 2
+    - service: light.turn_on
+      data:
+        entity_id: group.eettafel
+        brightness: 255
+    - delay: 1
+    - service: light.turn_off
+      data:
+        entity_id: group.eettafel
+
+kermis:
+  alias: 'Kermis'
+  sequence:
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.paneel_keuken
+        brightness: 255
+        transition: 3
+        kelvin: 4000
+    - delay: 3
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.paneel_keuken
+        brightness: 127
+        transition: 3
+        kelvin: 2200
+    - delay: 4
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.paneel_keuken
+    - service: homeassistant.turn_on
+      data:
+        entity_id: group.eettafel
+        brightness: 255
+        transition: 4
+        kelvin: 4000
+    - delay: 4
+    - service: homeassistant.turn_on
+      data:
+        entity_id: group.eettafel
+        brightness: 127
+        transition: 4
+        kelvin: 2200
+    - delay: 4
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.lamp_2__tafel_2
+    - delay: 2
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.lamp_1__tafel
+    - delay: 1
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.lamp_salontafel
+        brightness: 127
+        kelvin: 2200
+    - service: homeassistant.turn_on
+      data:
+        entity_id: light.schemerlamp
+        brightness: 127
+        kelvin: 2200
+    - delay: 1
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.lamp_salontafel
+    - service: homeassistant.turn_off
+      data:
+        entity_id: light.schemerlamp

@@ -1,0 +1,110 @@
+light.lamp_1__tafel:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65540
+light.lamp_2__tafel:
+  config_entry_id:
+  name: Garagelamp
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65541
+light.schemerlamp:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65539
+light.floalt_panel_ws_30x30:
+  config_entry_id:
+  name: Ganglamp
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65537
+light.huiskamer:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: group-7e1b7152044001b3-131074
+light.gang:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: group-7e1b7152044001b3-131073
+sensor.tilburg_condition:
+  config_entry_id:
+  name:
+  platform: buienradar
+  unique_id: 51.5394505.068090condition
+sensor.tilburg_temperature:
+  config_entry_id:
+  name:
+  platform: buienradar
+  unique_id: 51.5394505.068090temperature
+sensor.tilburg_condition_1d:
+  config_entry_id:
+  name:
+  platform: buienradar
+  unique_id: 51.5394505.068090condition_1d
+sensor.tilburg_temperature_1d:
+  config_entry_id:
+  name:
+  platform: buienradar
+  unique_id: 51.5394505.068090temperature_1d
+sensor.davanti1_battery_level:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: level_marcel
+sensor.davanti1_battery_state:
+  config_entry_id:
+  name:
+  platform: ios
+  unique_id: state_marcel
+light.lamp_2__tafel_2:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65543
+light.slaapkamer_robin__lamp_2:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65547
+light.slaapkamer_robin__lamp_3:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65548
+light.slaapkamer_robin__lamp_1:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65546
+light.lamp_justin:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65550
+light.lamp_salontafel:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65542
+light.slaapkamer_robin:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: group-7e1b7152044001b3-131077
+light.garage:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: group-7e1b7152044001b3-131076
+light.slaapkamer_justin:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: group-7e1b7152044001b3-131078
+light.paneel_keuken:
+  config_entry_id:
+  name:
+  platform: tradfri
+  unique_id: light-7e1b7152044001b3-65551

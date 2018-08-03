@@ -1,0 +1,251 @@
+homeassistant:
+  # Definition of your Home
+  name: Home
+  latitude: !secret thuis_latitude
+  longitude: !secret thuis_longitude
+  elevation: 0
+  unit_system: metric
+  time_zone: Europe/Amsterdam
+  # Customization of names
+  customize: !include customize.yaml
+
+##############################################################################
+# The !include lines drag additional yaml files into the configuration file
+# during the load of Home Assistant (HA). This also omits the use of the 
+# names (group.,automation.,script. and sensor. in the file itself)
+# Example: define bedroom: in groups.yaml, use in other files group.bedroom 
+##############################################################################
+
+# Overview of all groups (group.*)
+group: !include groups.yaml
+# Overview of all automations (automation.*)
+automation: !include automations.yaml
+# Overview of all scripts (script.*)
+script: !include scripts.yaml
+# Overview of all sensors (sensor.*)
+sensor: !include sensors.yaml
+
+##############################################################################
+# All options without configuration
+##############################################################################
+
+#*****************************************************************************
+# Config component enables you to configure and manage parts of HA
+# https://www.home-assistant.io/components/config
+#*****************************************************************************
+config:
+#*****************************************************************************
+# When the discovery component is enables it will automatically detect new
+# devices when added to the network. For a list of compatible devices, follow
+# the URL below
+# https://www.home-assistant.io/components/discovery
+#*****************************************************************************
+discovery:
+#*****************************************************************************
+# The frontend component enables the UI to control HA from the browser. You
+# can also define themes, additional URL's etc. in this component
+# https://www.home-assistant.io/components/frontend
+#*****************************************************************************
+frontend:
+#*****************************************************************************
+# The ios component is needed when you want the HA app on the iphone
+# https://www.home-assistant.io/components/ios
+#*****************************************************************************
+ios:
+#*****************************************************************************
+# The logbook component show all events that occured on your home assistant
+# https://www.home-assistant.io/components/logbook
+#*****************************************************************************
+logbook:
+#*****************************************************************************
+# This component adds an option in the menu to show tracked devices on a map
+# in the defined zones.
+# Info: https://www.home-assistant.io/components/map
+#*****************************************************************************
+map:
+
+#*****************************************************************************
+# This component tracks the position of the sun at your home location 
+# Based on sunset or sunrise you could trigger actions (ex. put on/off light)
+# Info: https://www.home-assistant.io/components/sun
+#*****************************************************************************
+sun:
+
+##############################################################################
+# All options without configuration
+##############################################################################
+
+#*****************************************************************************
+# This component is needed to have different cameras working with HA.
+# The 'generic' platform shows a static picture. 
+# In my case a generated google maps picture with my current location
+# Info --> https://www.home-assistant.io/components/camera/
+#          https://www.home-assistant.io/components/camera.generic/
+#*****************************************************************************
+camera:
+  - name: "Marcel's Locatie"
+    platform: generic
+    still_image_url: https://maps.googleapis.com/maps/api/staticmap?center={{ states.device_tracker.marcel.attributes.latitude }},{{ states.device_tracker.marcel.attributes.longitude }}&zoom=13&size=500x500&maptype=hybrid&markers=color:red%7Clabel:M%7C{{ states.device_tracker.marcel.attributes.latitude }},{{ states.device_tracker.marcel.attributes.longitude }}
+    limit_refetch_to_url_change: true
+
+#*****************************************************************************
+# Three different ways to track home/away of devices and my exact GSP location
+# - Netgear: Detects presence by logging into my router and checks which devices
+#            are registered
+# - icloud: Used to track position from an iphone. icloud login needed
+# - owntracks: Additional app on iOS/Android to check GPS location
+# Info --> https://www.home-assistant.io/components/device_tracker/
+#          https://www.home-assistant.io/components/device_tracker.netgear/
+#          https://www.home-assistant.io/components/device_tracker.icloud/
+#          https://www.home-assistant.io/components/device_tracker.owntracks/
+#*****************************************************************************
+device_tracker:
+  - platform: netgear
+    host: 10.0.0.1
+    port: 80
+    username: !secret netgear_user
+    password: !secret netgear
+    track_new_devices: no
+    interval_seconds: 60
+    consider_home: 180
+  - platform: icloud
+    username: !secret icloud_user
+    password: !secret icloud
+  - platform: owntracks
+    max_gps_accuracy: 200
+
+#*****************************************************************************
+# Which sensors or complete groups are not needed to be tracked
+# They do not appear in, for example, the History screen
+# Info --> https://www.home-assistant.io/components/history
+#*****************************************************************************
+history:
+  exclude:
+    domains:
+      - weblink
+      - updater
+      - group
+      - automation
+      - script
+    entities:
+      - sensor.davanti1_battery_level
+      - sensor.davanti1_battery_state
+      - sensor.bewegingssensor_gang
+      - sensor.bewegingssensor_garage
+      - sensor.afstandsbediening_beneden
+      - sensor.afstandsbediening_justin
+      - sensor.afstandsbediening_robin
+      - sensor.long_power_failure_count
+      - sensor.power_consumption_phase_l1
+      - sensor.power_consumption_phase_l2
+      - sensor.power_consumption_phase_l3
+      - sensor.power_production_phase_l1
+      - sensor.power_production_phase_l2
+      - sensor.power_production_phase_l3
+      - sensor.voltage_sags_phase_l1
+      - sensor.voltage_sags_phase_l2
+      - sensor.voltage_sags_phase_l3
+      - sensor.voltage_swells_phase_l1
+      - sensor.voltage_swells_phase_l2
+      - sensor.voltage_swells_phase_l3
+      - binary_sensor.6xvs10_brake_fluid
+      - binary_sensor.6xvs10_bulbs
+      - binary_sensor.6xvs10_doors
+      - binary_sensor.6xvs10_service
+      - binary_sensor.6xvs10_washer_fluid
+      - binary_sensor.6xvs10_windows
+
+#*****************************************************************************
+# The option that makes the UI in the browser available. Additional config
+# for better protection or tying it to a custom domain
+# Info --> https://www.home-assistant.io/components/http/
+#*****************************************************************************
+http:
+  ssl_certificate: /ssl/fullchain.pem
+  ssl_key: /ssl/privkey.pem
+  api_password: !secret http_password
+  base_url: !secret http_url
+  server_port: !secret http_port
+
+#*****************************************************************************
+# Message broker. Additional information is needed when you switch from the 
+# standard build-in MQTT towards the add-on mosquitto
+# Info --> https://www.home-assistant.io/addons/mosquitto/
+#*****************************************************************************
+mqtt:
+  broker: core-mosquitto
+  username: !secret mqtt_user
+  password: !secret mqtt
+  discovery: true
+  discovery_prefix: 'ha'
+
+#*****************************************************************************
+# Option to make Pi-hole an additional option in the menu. Pi-hole is a DNS
+# replacement to block ads even before you see them. This kills the need for
+# browser add-ons like AdBlock (or at least helps)
+# Info --> https://pi-hole.net/
+#*****************************************************************************
+panel_iframe:
+  pihole:
+    title: Pi-hole
+    icon: mdi:block-helper
+    url: http://10.0.0.220/admin/index.html
+
+#*****************************************************************************
+# Configuration node where you define the used Text-To-Speech (TTS) engines
+# Info --> https://www.home-assistant.io/components/tts/
+#*****************************************************************************
+tts:
+  - platform: google
+
+#*****************************************************************************
+# This node shares basic info about your information and notifies you when an
+# update is available. Optionally you can set the 'include_used_components' to 
+# true so Home Assistant developers to focus development on popular components.
+# Info --> https://www.home-assistant.io/components/updater/
+#*****************************************************************************
+updater:
+  include_used_components: true
+
+#*****************************************************************************
+# Component to retrieve all kinds of user information from my volvo
+# Gas level, milage etc.
+# Info --> https://www.home-assistant.io/components/volvooncall/
+#*****************************************************************************
+volvooncall:
+  username: !secret volvo_on_call_user
+  password: !secret volvo_on_call
+
+#*****************************************************************************
+# Component to retrieve weather information based on your home location
+# Info --> https://www.home-assistant.io/components/weather/
+#*****************************************************************************
+weather:
+  - platform: buienradar
+
+#*****************************************************************************
+# Component where you can set zones to trigger action when you enter/leave them
+# and to give an overview to the other users where you are in your badge
+# Info --> https://www.home-assistant.io/components/zone/
+#*****************************************************************************
+zone:
+  - name: Davanti Utrecht
+    latitude: !secret werk_mu_latitude
+    longitude: !secret werk_mu_longitude
+    radius: 100
+    icon: mdi:briefcase
+    
+  - name: NewCold Breda
+    latitude: !secret werk_mb_latitude
+    longitude: !secret werk_mb_longitude
+    radius: 100
+    icon: mdi:briefcase
+
+##############################################################################
+# Disabled options maybe needed in the future 
+##############################################################################
+
+# Allows you to issue voice commands from the frontend in enabled browsers
+##conversation:
+# Cloud option to connect to cloud-only services like amazon alexa
+##cloud:

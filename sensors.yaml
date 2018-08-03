@@ -1,0 +1,50 @@
+#*****************************************************************************
+# Sensor component to get information from the weather site Buienradar
+# https://www.home-assistant.io/components/weather.buienradar/
+#*****************************************************************************
+- platform: buienradar
+  name: 'Tilburg' 
+  monitored_conditions:
+    - condition
+    - temperature
+    - condition_1d
+    - temperature_1d
+
+#*****************************************************************************
+# Sensor component to calculate how long it takes to get from my current 
+# location towards Home, Newcold and Davanti
+# https://www.home-assistant.io/components/sensor.google_travel_time/
+#*****************************************************************************
+- platform: google_travel_time
+  name: Marcel reizen
+  api_key: !secret google_api_key
+  origin: device_tracker.marcel
+  destination: zone.home
+  options:
+    mode: driving
+
+- platform: google_travel_time
+  name: Davanti
+  api_key: !secret google_api_key
+  origin: device_tracker.marcel
+  destination: zone.davanti_utrecht
+  options:
+    mode: driving
+
+- platform: google_travel_time
+  name: Newcold
+  api_key: !secret google_api_key
+  origin: device_tracker.marcel
+  destination: zone.newcold_breda
+  options:
+    mode: driving
+
+#*****************************************************************************
+# Sensor component to get information from my smart meter (P1 cable)
+# It shows, amongst other things, current usage of electricity and gas 
+# It is attached directly on a USB port of the raspberry PI 
+# https://www.home-assistant.io/components/sensor.dsmr/
+#***************************************************************************** 
+- platform: dsmr
+  port: /dev/ttyUSB0
+  dsmr_version: 5

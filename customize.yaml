@@ -1,0 +1,36 @@
+
+#*****************************************************************************
+# Give some components, sensors etc. a friendly name to display
+#*****************************************************************************
+weather.br_unknown_station:
+  friendly_name: Tilburg
+  
+sensor.tilburg_condition:
+    friendly_name: Weertype nu
+
+sensor.tilburg_temperature:
+    friendly_name: Temperatuur nu
+
+sensor.tilburg_condition_1d:
+    friendly_name: Weertype morgen
+
+sensor.tilburg_temperature_1d:
+    friendly_name: Temperatuur morgen
+
+#*****************************************************************************
+# Hide some sensors, because they do not bring any value
+# You can still see them underneath https://<HA-ip>/dev-state, but not in 
+# any UI component anymore
+#*****************************************************************************
+sensor.voltage_sags_phase_l1:
+  hidden: true
+sensor.voltage_sags_phase_l2:
+  hidden: true
+sensor.voltage_sags_phase_l3:
+  hidden: true
+sensor.voltage_swells_phase_l1:
+  hidden: true
+sensor.voltage_swells_phase_l2:
+  hidden: true
+sensor.voltage_swells_phase_l3:
+  hidden: true
